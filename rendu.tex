@@ -1,0 +1,68 @@
+\documentclass[a4paper]{article}
+
+\usepackage{fullpage}
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{amssymb}
+
+\theoremstyle{definition}
+\newtheorem{que}{Question}
+
+
+\title{Compte-rendu de TP de méthode numérique de base}
+\author{Maxime Gourgoulhon \and Pierre Bouvier}
+
+\begin{document}
+	\maketitle
+	\begin{que}
+		D'après (10), pour $k \in \mathbb{N}$ et $i \in 1..n$:
+		\begin{align}
+			\frac{u_i^{(k+1)} - u_i^{(k)}}{\delta_t} = \frac{\theta}{\delta_x^2} [C_{i+1/2}u_{i+1}^{(k+1)} - (C_{i+1/2} + C_{i-1/2})u_{i}^{(k+1)} + C_{i-1/2}u_{i-1}^{(k+1)}]
+\\ + \frac{1-\theta}{\delta_x^2} [C_{i+1/2}u_{i+1}^{(k)} - (C_{i+1/2} + C_{i-1/2})u_{i}^{(k)} + C_{i-1/2}u_{i-1}^{(k)}]
+		  \\ \Leftrightarrow u_i^{(k+1)} + \theta\frac{\delta_t}{\delta_x^2} [-C_{i+1/2}u_{i+1}^{(k+1)} + (C_{i+1/2} + C_{i-1/2})u_{i}^{(k+1)} - C_{i-1/2}u_{i-1}^{(k+1)}] \\ =  u_i^{(k)}
+ + (\theta-1)\frac{\delta_t}{\delta_x^2}[-C_{i+1/2}u_{i+1}^{(k)} + (C_{i+1/2} + C_{i-1/2})u_{i}^{(k)} - C_{i-1/2}u_{i-1}^{(k)}]
+		\end{align}
+
+		Posons la matrice A suivante (attention à l'alignement des lignes obliques):
+		\begin{align*}
+			A=
+			\begin{pmatrix}
+				C_{1-1/2} + C_{1+1/2} & - C_{1+1/2}  & 0 & \cdots & \cdots & 0 \\
+				 - C_{2-1/2} & C_{2-1/2} + C_{2+1/2} & - C_{2+1/2}  & \ddots & ~ & \vdots\\
+				0 & - C_{3-1/2} & C_{3-1/2} + C_{3+1/2} & - C_{3+1/2}  & \ddots & \vdots\\
+				\vdots & \ddots & \ddots & \ddots & \ddots & 0\\
+				\vdots & ~ & \ddots & \ddots & \ddots & - C_{(n-1)+1/2}\\
+				0 & \cdots & \cdots & 0 & - C_{n-1/2} & C_{n-1/2} + C_{n+1/2} \\
+			\end{pmatrix}
+		\end{align*}
+
+		Pour $i \in 2..(n-1)$, d'après (1) de notre rendu, le schéma (11) de l'énoncé est vérifié.
+		En effet, à chaque ligne i du schéma (10) correspond à l'équation (1) de notre rendu, pour le même i fixé.\\
+
+		Pour $i = n$, on a $u_{n+1}^{(t)} = 0$. Ainsi on peut simplifier l'équation (1) de notre rendu en éliminant les $u_{n+1}^{(t)}$.
+		Au final, la dernière ligne n du schéma matriciel de l'énoncé correspond à notre équation. \\
+
+		Pour $i = 0$, on a $u_0^{(t)} != 0$. Autrement dit, il faut rajouter un terme supplémentaire.
+		L'énoncé l'a fait pour nous, en posant $B_i^{(k)}$
+		En effet, contrairement au cas $i=n$, l'absence de $u_0^{(t)}$ dans $U^{(k)}$ changerait l'équation (1) pour $i=0$. \\
+
+		On en déduit que le schéma s'écrit de façon matricielle, avec notre matrice A posée et (11) de l'énoncé. \\
+
+		A est tridiagonale. \\
+
+		Montrons que A est symétrique: $\forall k, C_{k-1/2} = C_{x_k - \delta / 2} = C_{\delta (k - 1/2) - l} = C_{(k-1)+1/2}$. \\
+		Cela démontre aussi que la notation adoptée par l'énoncé pour les $C$ est sans ambiguité. \\
+
+		Conclusion: La matrice A définie précédemment est alors symétrique, tridiagonale et satisfait l'équivalence entre (10) et (11) de l'énoncé. \\
+	\end{que}
+\end{document}
+\grid
+\grid
+\grid
