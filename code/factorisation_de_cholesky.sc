@@ -23,4 +23,4 @@ L = diag(l) + diag(m, -1)
 disp(L)
 A = L * L'
 disp(A)
-assert_checkequal(A, M);
+assert_checkalmostequal(A, M, 1.0D-10);
