@@ -2,7 +2,7 @@
 function [l, m]=factorisation_cholesky(D, SD)
     // arg: la diagonale et la sous-diagonale d’une matrice M symétrique définie 
     //      positive et tridiagonale.
-    // return: deux vecteurs l (sous-diagonale) et m (diagonale) issus de
+    // return: deux vecteurs l (diagonale) et m (sous-diagonale) issus de
     //      la matrice résultante de la factorisation de cholesky.
     l=zeros(1, length(D))
     m=zeros(1, length(SD))
