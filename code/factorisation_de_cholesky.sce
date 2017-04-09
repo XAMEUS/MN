@@ -49,9 +49,13 @@ function X=remonte(l, m, Z)
     // arg: l la sous-diagonale et m la diagonale de L, issus de la factorisation de Cholesky d'une matrice n*n. Z vecteur de taille n.
     // return: Vecteur X de taille n, tel que T(L)X=Z.
     X = zeros(1, length(Z))
-	X(length(X)) = Z(length(X)) / m(length(X))
+	X(length(X)) = Z(length(X)) / l(length(X))
     for i = length(X)-1:-1:1
-        X(i) = (Z(i) - l(i) * X(i+1)) / m(i)
+        X(i) = (Z(i) - m(i) * X(i+1)) / l(i)
     end
 endfunction
 
+X = remonte(l, m, Z)
+disp(X')
+disp(L * X')
+disp(L' * X')
