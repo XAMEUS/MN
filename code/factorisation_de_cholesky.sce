@@ -39,3 +39,14 @@ function Z=descente(l, m, Y)
     end
 endfunction
 
+//Question 5
+function X=remonte(l, m, Z)
+    // arg: l la sous-diagonale et m la diagonale de L, issus de la factorisation de Cholesky d'une matrice n*n. Z vecteur de taille n.
+    // return: Vecteur X de taille n, tel que T(L)X=Z.
+    X = zeros(1, length(Z))
+	X(length(X)) = Z(length(X)) / m(length(X))
+    for i = length(X)-1:-1:1
+        X(i) = (Z(i) - l(i) * X(i+1)) / m(i)
+    end
+endfunction
+
