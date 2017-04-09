@@ -28,3 +28,14 @@ A = L * L'
 disp(A)
 assert_checkalmostequal(A, M, 1.0D-10);
 
+// Question 4
+function Z=descente(l, m, Y)
+    // arg: l la sous-diagonale et m la diagonale de L, issus de la factorisation de Cholesky d'une matrice n*n. Y vecteur de taille n.
+    // return: Vecteur Z de taille n, tel que LZ=Y.
+    Z = zeros(1, length(Y))
+	Z(1) = Y(1) / m(1)
+    for i = 2:length(Z)
+        Z(i) = (Y(i) - l(i-1) * Z(i-1)) / m(i)
+    end
+endfunction
+
