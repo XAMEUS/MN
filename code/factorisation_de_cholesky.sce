@@ -35,9 +35,15 @@ function Z=descente(l, m, Y)
     Z = zeros(1, length(Y))
 	Z(1) = Y(1) / m(1)
     for i = 2:length(Z)
+        disp(i);
         Z(i) = (Y(i) - l(i-1) * Z(i-1)) / m(i)
     end
 endfunction
+
+Y = [1, 2, 3, 4, 5]
+Z = descente(l, m, Y')
+W = L * Z
+assert_checkalmostequal(Y, W, 1.0D-10);
 
 //Question 5
 function X=remonte(l, m, Z)
