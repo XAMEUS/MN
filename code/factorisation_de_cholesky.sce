@@ -57,5 +57,4 @@ endfunction
 
 X = remonte(l, m, Z)
 disp(X')
-disp(L * X')
-disp(L' * X')
+assert_checkalmostequal(Z', L' * X', 1.0D-10);
