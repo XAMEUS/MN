@@ -99,7 +99,18 @@
 	\begin{que}
 		Fonction $remonte$
 	\end{que}
+	\begin{que}
+		Reprenons le schéma (10) de l'énoncé et les résultats de la question 1. \\
+
+		Comme le problème est stationnaire, on a: $\forall k \in [0, T],  U^{(k)}=U^{(k+1)}$ \\
+		Nous noterons ce vecteur $U$. \\
+
+		Comme le problème est stationnaire et par la même argumentation, $B^{(k)}$ ne dépend pas de k. Nous noterons ce vecteur $B$. \\
+
+		D'après la question 1, pour $k \in \mathbb{N}$ et $i \in 1..n$: \\
+		$(I + \theta \mu A)U = (I + (\theta - 1) \mu A)U^{(k)} + \mu B^{(k)}$ \\
+		$\Leftrightarrow 0 = (( - 1) \mu A)U + \mu B$ \\
+		$\Leftrightarrow AU = B$ car $\mu$ non-nul \\
+		D'où le résultat. \\
+	\end{que}
 \end{document}
-\grid
-\grid
-\grid
