@@ -112,4 +112,29 @@
 		$\Leftrightarrow AU = B$ car $\mu$ non-nul \\
 		D'où le résultat. \\
 	\end{que}
+	\begin{que}
+		Calcul Scilab. \\
+	\end{que}
+	\begin{que}
+		A étant définie-positive, elle est inversible, et comme $\mu \theta \leq 0$ alors M est inversible. \\
+		Montrons que $M^{-1}N$ et $A$ ont les mêmes vecteurs propres: \\
+		Soit $x \neq 0$ vecteur propre associée à la valeur propre $\lambda$.
+		On a alors: \\
+		$M^{-1}Nx=\lambda x \Leftrightarrow Nx=\lambda Mx$
+		$\Leftrightarrow x +(\theta - 1) \mu A x = \lambda x + \theta \mu \lambda Ax$
+		$\Leftrightarrow  Ax = \frac{(1 - \lambda)}{\mu(1+\theta(\lambda - 1))} x$ \\
+		On a une équivalence, ainsi $M^{-1}N$ et $A$ ont les mêmes vecteurs propres.\\
+		En revanche pour un vecteur propre $x$ fixé, on a des valeurs propres associées différentes: $\lambda \in Sp(M^{-1}N) \Leftrightarrow \frac{(1 - \lambda)}{\mu(1+\theta(\lambda - 1))} \in Sp(A)$ \\
+
+		Posons $\theta = 1/2$ et "inversons" l'équivalence: \\
+		$\frac{1 - \mu \lambda / 2}{1 + \mu \lambda / 2} \in Sp(M^{-1}N) \Leftrightarrow \lambda \in Sp(A)$ \\
+
+		Montrons que $\forall \lambda \in Sp(A), \frac{1 - \mu \lambda / 2}{1 + \mu \lambda / 2} \in ]-1, 1[$ \\
+		Puisque: $\mu \ge 0$ et $\lambda > 0$ (Déjà vu) \\
+		On a: $ -1 -\mu \lambda/2 < -1 + \mu \lambda / 2 < 1 +\mu \lambda / 2$ \\
+		D'où le résultat ($\forall \lambda \in Sp(M^{-1}N), \lambda < 1$) \\
+
+		Ainsi: $\rho(M^{-1}N) = max(Sp(M^{-1}N)) < 1$ \\
+		Conlusion: $\rho(M^{-1}N) < 1$
+	\end{que}
 \end{document}
