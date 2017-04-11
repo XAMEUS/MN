@@ -1,3 +1,4 @@
+
 \documentclass[a4paper]{article}
 
 \usepackage{fullpage}
@@ -110,15 +111,17 @@
 		$(I + \theta \mu A)U = (I + (\theta - 1) \mu A)U^{(k)} + \mu B^{(k)}$ \\
 		$\Leftrightarrow 0 = (( - 1) \mu A)U + \mu B$ \\
 		$\Leftrightarrow AU = B$ car $\mu$ non-nul \\
+		Comme $A$ est définie-positive, alors $A$ est inversible, donc $A$ est une bijection de $\mathbb{R}^n$ sur $\mathbb{R}^n$. \\
+		Ainsi $U$ admet une unique solution dans l'équation $AU=B$.\\
 		D'où le résultat. \\
 	\end{que}
 	\begin{que}
 		On réécrit le système avec $C(x)=exp(-x/l)$ et $u_0 = 1$: \\
-		$(13) \Leftrightarrow \frac{\delta^2 u}{\delta^2 x} l = \frac{\delta u }{\delta x}$ \\
+		$(13) \Leftrightarrow \frac{\delta^2 u}{\delta^2 x} l = \frac{\delta u }{\delta x}$ car $\forall x, C(x) \ne 0$ et $C'(x) \ne 0$\\
 		Les solutions sont: $ \frac{\delta u }{\delta x} = k exp(-x/l)$ où ($k \in \mathbb{R}$). \\
 		Ainsi $u(x) = a + b exp(-x/l)$ avec $a, b \in \mathbb{R}$. \\
 		On fixe les constantes avec les conditions initiales: $a=\frac{1}{1-e^2}$ et $b=\frac{-e}{1-e^2}$. \\
-		La solution est donc $u(x)=\frac{1 - e^{1-x/l}}{1-e^2}$. \\
+		La solution est donc $u(x)=\frac{1 - e^{1-x/l}}{1-e^2}$ pour $x \in [-l, l]$.\\
 	\end{que}
 	\begin{que}
 		A étant définie-positive, elle est inversible, et comme $\mu \theta \leq 0$ alors M est inversible. \\
@@ -141,5 +144,17 @@
 
 		Ainsi: $\rho(M^{-1}N) = max(Sp(M^{-1}N)) < 1$ \\
 		Conlusion: $\rho(M^{-1}N) < 1$
+	\end{que}
+	\begin{que}
+		Le rayon spectral de $M^{-1}N U^{(k)}$ étant strictement inférieur à 1, la méthode (14) converge. \\
+
+		Comme l'addition et le produit de matrices sont des applications continues: \\
+		$N\lim\limits_{k \to +\infty} U^{(k)} + \mu B = (\lim\limits_{k \to +\infty} NU^{(k)}) + \mu B = \lim\limits_{k \to +\infty} (NU^{(k)} + \mu B) = \lim\limits_{k \to +\infty} MU^{(k+1)} = M\lim\limits_{k \to +\infty} U^{(k)}$ \\
+		On peut alors écrire (en prenant les deux extremités): $(M-N) \lim\limits_{k \to +\infty} U^{(k)}=\mu B$ \\
+
+		On a aussi: $(M-N)^{-1} = A^{-1} / \mu$
+		D'où: $\lim\limits_{k \to +\infty} U^{(k)} = BA^{-1}$
+
+		Conclusion $U^{(k)}$ converge en $+\infty$ vers la solution stationnaire du problème précédent. \\
 	\end{que}
 \end{document}
