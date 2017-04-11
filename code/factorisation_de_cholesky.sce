@@ -58,3 +58,25 @@ endfunction
 X = remonte(l, m, Z)
 disp(X)
 assert_checkalmostequal(Z, L' * X, 1.0D-10);
+
+// Question 7
+n = 10  
+l = 10
+A = zeros(n, n)
+A(1, 2) = -exp(-(l - 3*l/(n + 1))/l)
+A(1, 1) = exp(-(l - l/(n + 1))/l) - A(1, 2)
+for i = 2:n-1
+    A(i, i-1) = A(i-1, i)
+    A(i, i+1) = -exp((2 * l / (n+1) * (i+1/2)-l)/l)
+    A(i, i) = -A(i, i-1) - A(i, i+1)
+end
+A(n, n-1) = A(n-1, n)
+A(n, n) = -A(n, n-1) + exp(-(l - l*(2*n + 1)/(n + 1))/l)
+
+B = zeros(1, n)
+B(1) = exp(-3/4)
+
+[l, m] = factorisation_cholesky(diag(A), diag(A, -1))
+U = descente(l, m, B)
+X = remonte(l, m, U)
+plot(X')
