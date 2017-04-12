@@ -25,10 +25,10 @@
 	\begin{que}
 		D'après (10), pour $k \in \mathbb{N}$ et $i \in 1..n$:
 		\begin{align*}
-			\frac{u_i^{(k+1)} - u_i^{(k)}}{\delta_t} = \frac{\theta}{\delta_x^2} [C_{i+1/2}u_{i+1}^{(k+1)} - (C_{i+1/2} + C_{i-1/2})u_{i}^{(k+1)} + C_{i-1/2}u_{i-1}^{(k+1)}]
-\\ + \frac{1-\theta}{\delta_x^2} [C_{i+1/2}u_{i+1}^{(k)} - (C_{i+1/2} + C_{i-1/2})u_{i}^{(k)} + C_{i-1/2}u_{i-1}^{(k)}]
-		  \\ \Leftrightarrow u_i^{(k+1)} + \theta\frac{\delta_t}{\delta_x^2} [-C_{i+1/2}u_{i+1}^{(k+1)} + (C_{i+1/2} + C_{i-1/2})u_{i}^{(k+1)} - C_{i-1/2}u_{i-1}^{(k+1)}] \\ =  u_i^{(k)}
- + (\theta-1)\frac{\delta_t}{\delta_x^2}[-C_{i+1/2}u_{i+1}^{(k)} + (C_{i+1/2} + C_{i-1/2})u_{i}^{(k)} - C_{i-1/2}u_{i-1}^{(k)}]
+			(10) \Leftrightarrow \frac{u_i^{(k+1)} - u_i^{(k)}}{\delta_t} = \frac{\theta}{\delta_x^2} [C_{i+1/2}u_{i+1}^{(k+1)} - (C_{i+1/2} + C_{i-1/2})u_{i}^{(k+1)} + C_{i-1/2}u_{i-1}^{(k+1)}]
+\\ + \frac{1-\theta}{\delta_x^2} [C_{i+1/2}u_{i+1}^{(k)} - (C_{i+1/2} + C_{i-1/2})u_{i}^{(k)} + C_{i-1/2}u_{i-1}^{(k)}] \\
+\Leftrightarrow u_i^{(k+1)} + \theta\frac{\delta_t}{\delta_x^2} [-C_{i+1/2}u_{i+1}^{(k+1)} + (C_{i+1/2} + C_{i-1/2})u_{i}^{(k+1)} - C_{i-1/2}u_{i-1}^{(k+1)}] \\ =  u_i^{(k)}
++(\theta-1)\frac{\delta_t}{\delta_x^2}[-C_{i+1/2}u_{i+1}^{(k)} + (C_{i+1/2} + C_{i-1/2})u_{i}^{(k)} - C_{i-1/2}u_{i-1}^{(k)}]
 		\end{align*}
 
 		Posons la matrice A suivante (attention à l'alignement des lignes obliques):
@@ -58,7 +58,7 @@
 
 		A est tridiagonale. \\
 
-		Montrons que A est symétrique: $\forall k, C_{k-1/2} = C_{x_k - \delta / 2} = C_{\delta (k - 1/2) - l} = C_{(k-1)+1/2}$. \\
+		A est symétrique (en effet $\forall k, C_{k-1/2} = C_{x_k - \delta / 2} = C_{\delta (k - 1/2) - l} = C_{(k-1)+1/2}$). \\
 		Cela démontre aussi que la notation adoptée par l'énoncé pour les $C$ est sans ambiguité. \\
 
 		Conclusion: La matrice A définie précédemment est alors symétrique, tridiagonale et satisfait l'équivalence entre (10) et (11) de l'énoncé. \\
