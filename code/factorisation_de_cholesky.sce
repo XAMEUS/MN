@@ -9,7 +9,7 @@ function [l, m]=factorisation_cholesky(D, SD)
     l(1) = sqrt(D(1))
     for i = 1:length(D)-1
         m(i) = SD(i) / l(i);
-        l(i+1) = sqrt(D(i) - m(i)^2);
+        l(i+1) = sqrt(D(i+1) - m(i)^2);
     end
 endfunction
 
