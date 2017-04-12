@@ -88,6 +88,6 @@ U = descente(d, m, B)
 X = remonte(d, m, U)
 
 //plot(X)
-x = [-l:l/100:l]
-plot(X)
-plot(x, (1-exp(1-x/l))/(1-exp(2)))
+x = [-l:2*l/(n-1):l]
+plot(x, X)
+plot(x, (1-exp(1-x/l))/(1-exp(2)), 'r-')
