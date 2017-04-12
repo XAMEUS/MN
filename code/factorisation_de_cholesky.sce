@@ -91,3 +91,17 @@ X = remonte(d, m, U)
 x = [-l:2*l/(n-1):l]
 plot(x, X)
 plot(x, (exp(x/l)-exp(1))/(exp(-1)-exp(1)), 'r-')
+
+// Question 10
+n = 10
+l = 10
+T = 10
+n_t = 1000
+delta_t = T / n_t
+mu = delta_t * (n+1)**2 / (2 * l)**2
+M = eye(n, n) + 0.5 * mu * A
+N = eye(n, n) - 0.5 * mu * A
+B = zeros(1, n)
+B(1) = Ci(1/2, n, l)
+U_actuel = zeros(n, 1)
+Y = N * U_actuel + mu * B
