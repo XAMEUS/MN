@@ -60,7 +60,7 @@ disp(X)
 assert_checkalmostequal(Z, L' * X, 1.0D-10);
 
 // Question 7
-n = 1000
+n = 10
 l = 10
 function c=C(x, l)
     c = exp(-x/l)
@@ -93,15 +93,23 @@ plot(x, X)
 plot(x, (exp(x/l)-exp(1))/(exp(-1)-exp(1)), 'r-')
 
 // Question 10
-n = 10
-l = 10
 T = 10
 n_t = 1000
 delta_t = T / n_t
 mu = delta_t * (n+1)**2 / (2 * l)**2
 M = eye(n, n) + 0.5 * mu * A
 N = eye(n, n) - 0.5 * mu * A
-B = zeros(1, n)
+B = zeros(n, 1)
 B(1) = Ci(1/2, n, l)
 U_actuel = zeros(n, 1)
 Y = N * U_actuel + mu * B
+
+scf()
+//MU = Y
+[d, m] = factorisation_cholesky(diag(M), diag(M, -1))
+for i = 1:100
+    U = descente(d, m, Y)
+    U_actuel = remonte(d, m, U)
+    Y = N * U_actuel + mu * B
+    plot(x, U_actuel')
+end
