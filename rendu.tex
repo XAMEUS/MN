@@ -110,10 +110,10 @@
 	\begin{que}
 		On réécrit le système avec $C(x)=exp(-x/l)$ et $u_0 = 1$: \\
 		$(13) \Leftrightarrow \frac{\delta^2 u}{\delta^2 x} l = \frac{\delta u }{\delta x}$ car $\forall x, C(x) \ne 0$ et $C'(x) \ne 0$\\
-		Les solutions sont: $ \frac{\delta u }{\delta x} = k exp(-x/l)$ où ($k \in \mathbb{R}$). \\
-		Ainsi $u(x) = a + b exp(-x/l)$ avec $a, b \in \mathbb{R}$. \\
-		On fixe les constantes avec les conditions initiales: $a=\frac{1}{1-e^2}$ et $b=\frac{-e}{1-e^2}$. \\
-		La solution est donc $u(x)=\frac{1 - e^{1-x/l}}{1-e^2}$ pour $x \in [-l, l]$.\\
+		Les solutions sont: $ \frac{\delta u }{\delta x} = k exp(x/l)$ où ($k \in \mathbb{R}$). \\
+		Ainsi $u(x) = a + b exp(x/l)$ avec $a, b \in \mathbb{R}$. \\
+		On fixe les constantes avec les conditions initiales: $b=\frac{1}{e^{-1}-e}$ et $a=-eb$. \\
+		La solution est donc $u(x)=\frac{e^{x/l}-e}{e^{-1}-e}$ pour $x \in [-l, l]$.\\
 	\end{que}
 	\begin{que}
 		A étant définie-positive, elle est inversible, et comme $\mu \theta \leq 0$ alors M est inversible. \\

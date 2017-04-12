@@ -60,7 +60,7 @@ disp(X)
 assert_checkalmostequal(Z, L' * X, 1.0D-10);
 
 // Question 7
-n = 10
+n = 1000
 l = 10
 function c=C(x, l)
     c = exp(-x/l)
@@ -90,4 +90,4 @@ X = remonte(d, m, U)
 //plot(X)
 x = [-l:2*l/(n-1):l]
 plot(x, X)
-plot(x, (1-exp(1-x/l))/(1-exp(2)), 'r-')
+plot(x, (exp(x/l)-exp(1))/(exp(-1)-exp(1)), 'r-')
