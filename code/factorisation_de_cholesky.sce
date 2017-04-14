@@ -1,3 +1,5 @@
+stacksize(268435454)
+
 // Question 3
 function [l, m]=factorisation_cholesky(D, SD)
     // arg: la diagonale et la sous-diagonale d’une matrice M symétrique définie 
