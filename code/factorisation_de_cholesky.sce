@@ -1,5 +1,5 @@
+clear
 stacksize(268435454)
-
 // Question 3
 function [l, m]=factorisation_cholesky(D, SD)
     // arg: la diagonale et la sous-diagonale d’une matrice M symétrique définie 
@@ -71,27 +71,29 @@ function c=Ci(i, n, l)
     c = i * 2 * l / (n + 1) - l
     c = C(c, l)
 endfunction
-A = zeros(n, n)
-A(1, 2) = -Ci(1+1/2, n, l)
-A(1, 1) = Ci(1-1/2, n, l) - A(1, 2)
-for i = 2:n-1
-    A(i, i-1) = A(i-1, i)
-    A(i, i+1) = -Ci(i+1/2, n, l)
-    A(i, i) = -A(i, i-1) - A(i, i+1)
-end
-A(n, n-1) = A(n-1, n)
-A(n, n) = -A(n, n-1) + Ci(n+1/2, n, l)
+function [A, B]=gen_matrices(n, l)
+    A = zeros(n, n)
+    A(1, 2) = -Ci(1+1/2, n, l)
+    A(1, 1) = Ci(1-1/2, n, l) - A(1, 2)
+    for i = 2:n-1
+        A(i, i-1) = A(i-1, i)
+        A(i, i+1) = -Ci(i+1/2, n, l)
+        A(i, i) = -A(i, i-1) - A(i, i+1)
+    end
+    A(n, n-1) = A(n-1, n)
+    A(n, n) = -A(n, n-1) + Ci(n+1/2, n, l)
 
-B = zeros(1, n)
-B(1) = Ci(1/2, n, l)
-
+    B = zeros(n, 1)
+    B(1) = Ci(1/2, n, l)
+endfunction
+[A, B] = gen_matrices(n, l)
 [d, m] = factorisation_cholesky(diag(A), diag(A, -1))
 U = descente(d, m, B)
 X = remonte(d, m, U)
 
 //plot(X)
 x = [-l:2*l/(n-1):l]
-plot(x, X)
+plot(x, X')
 plot(x, (exp(x/l)-exp(1))/(exp(-1)-exp(1)), 'r-')
 
 // Question 10
@@ -101,20 +103,17 @@ delta_t = T / n_t
 mu = delta_t * (n+1)**2 / (2 * l)**2
 M = eye(n, n) + 0.5 * mu * A
 N = eye(n, n) - 0.5 * mu * A
-B = zeros(n, 1)
-B(1) = Ci(1/2, n, l)
 U_actuel = zeros(n, 1)
-Y = N * U_actuel + mu * B
 
-//scf()
+scf()
 //MU = Y
 [d, m] = factorisation_cholesky(diag(M), diag(M, -1))
 h = 20000
 nb_lines = 30
 for i = 1:h
+    Y = N * U_actuel + mu * B
     U = descente(d, m, Y)
     U_actuel = remonte(d, m, U)
-    Y = N * U_actuel + mu * B
     ix = floor(modulo(i, h/nb_lines))
     if ix == 0 then
         plot(x, U_actuel');
@@ -122,3 +121,35 @@ for i = 1:h
         e.children(1).foreground=color(0, 255-255*i/(h/nb_lines)/nb_lines, 255*i/(h/nb_lines)/nb_lines);
     end
 end
+
+// Question 11
+a = 0.8
+l = 10
+T = 60
+n = 2000
+delta_x = 2*l / n
+n_t = 3000
+delta_t = T / n_t
+t_inter = 2 * T / 3
+t_fin = T
+
+[A, B] = gen_matrices(n, l) // TODO problème sur B
+mu = delta_t * (n+1)**2 / (2 * l)**2
+M = eye(n, n) + 0.5 * mu * A
+N = eye(n, n) - 0.5 * mu * A
+[d, m] = factorisation_cholesky(diag(M), diag(M, -1))
+U_actuel = zeros(n, 1)
+for i = 1:n
+    U_actuel(i) = ((i-1)/T)**2
+end
+Y = N * U_actuel + mu * B
+for i = 1:int(T / delta_x)
+    Y = N * U_actuel + mu * B
+    U_actuel = remonte(d, m, descente(d, m, Y))
+    if i == int(t_inter / delta_x) then
+       U_inter = U_actuel 
+    end
+end
+function flux(x_d)
+    Ci(1/2, n, l) * () / delta_x - (delta_x / 2) * 
+endfunction
