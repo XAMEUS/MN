@@ -104,14 +104,19 @@ B(1) = Ci(1/2, n, l)
 U_actuel = zeros(n, 1)
 Y = N * U_actuel + mu * B
 
-scf()
+//scf()
 //MU = Y
 [d, m] = factorisation_cholesky(diag(M), diag(M, -1))
-for i = 1:50000
+h = 20000
+nb_lines = 30
+for i = 1:h
     U = descente(d, m, Y)
     U_actuel = remonte(d, m, U)
     Y = N * U_actuel + mu * B
-    if modulo(i, 5000) == 0 then
-        plot(x, U_actuel')
+    ix = floor(modulo(i, h/nb_lines))
+    if ix == 0 then
+        plot(x, U_actuel');
+        e = gce()
+        e.children(1).foreground=color(0, 255-255*i/(h/nb_lines)/nb_lines, 255*i/(h/nb_lines)/nb_lines);
     end
 end
