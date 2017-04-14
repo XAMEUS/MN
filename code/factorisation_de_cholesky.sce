@@ -60,7 +60,7 @@ disp(X)
 assert_checkalmostequal(Z, L' * X, 1.0D-10);
 
 // Question 7
-n = 10
+n = 1000
 l = 10
 function c=C(x, l)
     c = exp(-x/l)
@@ -107,9 +107,11 @@ Y = N * U_actuel + mu * B
 scf()
 //MU = Y
 [d, m] = factorisation_cholesky(diag(M), diag(M, -1))
-for i = 1:100
+for i = 1:50000
     U = descente(d, m, Y)
     U_actuel = remonte(d, m, U)
     Y = N * U_actuel + mu * B
-    plot(x, U_actuel')
+    if modulo(i, 5000) == 0 then
+        plot(x, U_actuel')
+    end
 end
