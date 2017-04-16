@@ -71,7 +71,7 @@ function c=Ci(i, n, l)
     c = i * 2 * l / (n + 1) - l
     c = C(c, l)
 endfunction
-function [A, B]=gen_matrices(n, l)
+function A=gen_matrice(n, l)
     A = zeros(n, n)
     A(1, 2) = -Ci(1+1/2, n, l)
     A(1, 1) = Ci(1-1/2, n, l) - A(1, 2)
@@ -82,11 +82,11 @@ function [A, B]=gen_matrices(n, l)
     end
     A(n, n-1) = A(n-1, n)
     A(n, n) = -A(n, n-1) + Ci(n+1/2, n, l)
-
-    B = zeros(n, 1)
-    B(1) = Ci(1/2, n, l)
 endfunction
-[A, B] = gen_matrices(n, l)
+
+A = gen_matrice(n, l)
+B = zeros(n, 1)
+B(1) = Ci(1/2, n, l)
 [d, m] = factorisation_cholesky(diag(A), diag(A, -1))
 U = descente(d, m, B)
 X = remonte(d, m, U)
@@ -108,7 +108,7 @@ U_actuel = zeros(n, 1)
 scf()
 //MU = Y
 [d, m] = factorisation_cholesky(diag(M), diag(M, -1))
-h = 20000
+h = 1//20000
 nb_lines = 30
 for i = 1:h
     Y = N * U_actuel + mu * B
@@ -123,6 +123,8 @@ for i = 1:h
 end
 
 // Question 11
+// Attention: On redéfinit des constantes et une fonction dans cette partie!
+funcprot(0)
 a = 0.8
 l = 10
 T = 60
@@ -132,24 +134,49 @@ n_t = 3000
 delta_t = T / n_t
 t_inter = 2 * T / 3
 t_fin = T
-
-[A, B] = gen_matrices(n, l) // TODO problème sur B
 mu = delta_t * (n+1)**2 / (2 * l)**2
-M = eye(n, n) + 0.5 * mu * A
-N = eye(n, n) - 0.5 * mu * A
-[d, m] = factorisation_cholesky(diag(M), diag(M, -1))
-U_actuel = zeros(n, 1)
-for i = 1:n
-    U_actuel(i) = ((i-1)/T)**2
-end
-Y = N * U_actuel + mu * B
-for i = 1:int(T / delta_x)
-    Y = N * U_actuel + mu * B
-    U_actuel = remonte(d, m, descente(d, m, Y))
-    if i == int(t_inter / delta_x) then
-       U_inter = U_actuel 
-    end
-end
-function flux(x_d)
-    Ci(1/2, n, l) * () / delta_x - (delta_x / 2) * 
+F_cible = [-0.1, -0.18]
+function c=C(x, x_d)
+    c = 1 - a * exp(-(x - x_d)**2 / 4)
 endfunction
+function c=Ci(i, n, l, x_d)
+    c = i * 2 * l / (n + 1) - l
+    c = C(c, x_d)
+endfunction
+function A=gen_matrice(n, l, x_d)
+    A = zeros(n, n)
+    A(1, 2) = -Ci(1+1/2, n, l, x_d)
+    A(1, 1) = Ci(1-1/2, n, l, x_d) - A(1, 2)
+    for i = 2:n-1
+        A(i, i-1) = A(i-1, i)
+        A(i, i+1) = -Ci(i+1/2, n, l, x_d)
+        A(i, i) = -A(i, i-1) - A(i, i+1)
+    end
+    A(n, n-1) = A(n-1, n)
+    A(n, n) = -A(n, n-1) + Ci(n+1/2, n, l, x_d)
+endfunction
+
+function [f_inter, f_fin] = flux(x_d)
+    A = gen_matrice(n, l, x_d)
+    M = eye(n, n) + 0.5 * mu * A
+    N = eye(n, n) - 0.5 * mu * A
+    [d, m] = factorisation_cholesky(diag(M), diag(M, -1))
+    U_actuel = zeros(n, 1)
+    for t = 0:n_t
+        Y = N * U_actuel
+        // B plus constante.
+        Y(1) = Y(1) + mu * Ci(1/2, n, l, x_d) * (delta_t/T)**2 * (t**2 + (t+1)**2) / 2
+        U_actuel = remonte(d, m, descente(d, m, Y))
+        if t == int(2 * n_t / 3) then
+            f_inter = Ci(1/2, n, l, x_d) * (U_actuel(1) - (t * delta_t / T)**2) / delta_x - (delta_x / T)**2 * t
+        end
+    end
+    f_fin = Ci(1/2, n, l, x_d) * (U_actuel(1) - (t * delta_t / T)**2) / delta_x - (delta_x / T)**2 * t
+endfunction
+
+//Question 12
+function norme=J(x_d)
+    num = flux(x_d) - F_cible
+    norme = (num(1)**2 + num(2)**2) / (F_cible(1)**2 + F_cible(2)**2)
+endfunction
+//TODO tracer la courbe
