@@ -149,4 +149,15 @@
 		Conclusion: $U^{(k)}$ converge en $+\infty$ vers la solution stationnaire du problème précédent.
 	\end{que}
 	\setcounter{que}{10}
+	\setcounter{que}{12}
+	\begin{que}
+		Avec ces trois points, nous avons quatre cas. Pour les résoudre, nous utilisons le fait que le seul minimum de la fonction est $x_d$, que la fonction est strictement décroissante pour $x \leq x_d$, puis strictement croissante pour $x \geq x_d$: \\
+		\begin{enumerate}
+			\item $J(x1) \leq J(x2) \leq J(x3)$: Le minimum n'étant pas dans $[x_3, b]$, on peut chercher dans $[a, x_2]$
+			\item $J(x1) \geq J(x2) \geq J(x3)$:  Le minimum n'étant pas dans $[a, x_1]$, on peut chercher dans $[x_2, b]$
+			\item $J(x1) \geq J(x2)$ et $J(x2) \leq J(x3)$: Le minimum étant ni dans $[x_3, b]$, ni dans $[a, x_1]$, on peut chercher dans $[x_1, x_3]$
+			\item $J(x1) \leq J(x2)$ et $J(x2) \geq J(x3)$: Ce cas est impossible
+		\end{enumerate}
+		Et ensuite nous réitérons.
+	\end{que}
 \end{document}
