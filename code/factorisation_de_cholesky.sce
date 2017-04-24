@@ -180,3 +180,26 @@ function norme=J(x_d)
     norme = (num(1)**2 + num(2)**2) / (F_cible(1)**2 + F_cible(2)**2)
 endfunction
 //TODO tracer la courbe
+
+//Question 13
+function res=dichotomie(funct, epsilon, a, b) // A tester!
+    while(b - a >= epsilon)
+        disp(a, b)
+        Ja = funct(a + (b-a) / 4)
+        Jb = funct(a + (b-a) / 2)
+        Jc = funct(a + (b-a) * 3 / 4)
+        if Ja <= Jb then
+            b = a + (b-a) / 2
+        elseif Jb <= Jc then
+            swpa = a + (b-a) / 4
+            swpb = a + (b-a) * 3 / 4
+            a = swpa
+            b = swpb
+        else
+            a = a + (b-a) / 2
+        end
+    end
+    res = b - a
+endfunction
+
+//res_dich = dichotomie(J, 1e-5, -l, l)
