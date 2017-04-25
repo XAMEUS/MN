@@ -181,6 +181,18 @@ function norme=J(x_d)
 endfunction
 //TODO tracer la courbe
 
+scf()
+aaa = -6
+bbb = 3
+ppp = 50
+xxx = aaa:abs(aaa-bbb)/(ppp-1):bbb
+yyy = eye(1, ppp)
+for i=1:ppp
+    yyy(1, i) = J(xxx(1, i));
+    disp(i)
+end
+plot(xxx, yyy)
+
 //Question 13
 function res=dichotomie(funct, epsilon, a, b) // A tester!
     while(b - a >= epsilon)
