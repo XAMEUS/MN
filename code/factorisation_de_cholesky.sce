@@ -49,7 +49,7 @@ assert_checkalmostequal(Y, W, 1.0D-10);
 //Question 5
 function X=remonte(l, m, Z)
     // arg: l la sous-diagonale et m la diagonale de L, issus de la factorisation de Cholesky d'une matrice n*n. Z vecteur de taille n.
-    // return: Vecteur X de taille n, tel que T(L)X=Z.
+    // return: Vecteur X de taille n, tel que T(L)X=Z. 
     X = zeros(length(Z), 1)
 	X(length(X)) = Z(length(X)) / l(length(X))
     for i = length(X)-1:-1:1
@@ -62,7 +62,7 @@ disp(X)
 assert_checkalmostequal(Z, L' * X, 1.0D-10);
 
 // Question 7
-n = 1000
+n = 10
 l = 10
 function c=C(x, l)
     c = exp(-x/l)
@@ -129,7 +129,7 @@ a = 0.8
 l = 10
 T = 60
 n = 2000
-delta_x = 2*l / n
+delta_x = 2*l / (n + 1)
 n_t = 3000
 delta_t = T / n_t
 t_inter = 2 * T / 3
@@ -139,25 +139,24 @@ F_cible = [-0.1, -0.18]
 function c=C(x, x_d)
     c = 1 - a * exp(-(x - x_d)**2 / 4)
 endfunction
-function c=Ci(i, n, l, x_d)
-    c = i * 2 * l / (n + 1) - l
-    c = C(c, x_d)
+function c=Ci(i, x_d)
+    c = C(i * delta_x - l, x_d)
 endfunction
-function A=gen_matrice(n, l, x_d)
+function A=gen_matrice(x_d)
     A = zeros(n, n)
-    A(1, 2) = -Ci(1+1/2, n, l, x_d)
-    A(1, 1) = Ci(1-1/2, n, l, x_d) - A(1, 2)
+    A(1, 2) = -Ci(1+1/2, x_d)
+    A(1, 1) = Ci(1-1/2, x_d) - A(1, 2)
     for i = 2:n-1
         A(i, i-1) = A(i-1, i)
-        A(i, i+1) = -Ci(i+1/2, n, l, x_d)
+        A(i, i+1) = -Ci(i+1/2, x_d)
         A(i, i) = -A(i, i-1) - A(i, i+1)
     end
     A(n, n-1) = A(n-1, n)
-    A(n, n) = -A(n, n-1) + Ci(n+1/2, n, l, x_d)
+    A(n, n) = -A(n, n-1) + Ci(n+1/2, x_d)
 endfunction
 
 function [f_inter, f_fin] = flux(x_d)
-    A = gen_matrice(n, l, x_d)
+    A = gen_matrice(x_d)
     M = eye(n, n) + 0.5 * mu * A
     N = eye(n, n) - 0.5 * mu * A
     [d, m] = factorisation_cholesky(diag(M), diag(M, -1))
@@ -165,13 +164,13 @@ function [f_inter, f_fin] = flux(x_d)
     for t = 0:n_t
         Y = N * U_actuel
         // B plus constante.
-        Y(1) = Y(1) + mu * Ci(1/2, n, l, x_d) * (delta_t/T)**2 * (t**2 + (t+1)**2) / 2
+        Y(1) = Y(1) + mu * Ci(1/2, x_d) * (delta_t/T)**2 * (t**2 + (t+1)**2) / 2
         U_actuel = remonte(d, m, descente(d, m, Y))
         if t == int(2 * n_t / 3) then
-            f_inter = Ci(1/2, n, l, x_d) * (U_actuel(1) - (t * delta_t / T)**2) / delta_x - (delta_x / T)**2 * t
+            f_inter = (Ci(1/2, x_d) * (U_actuel(1) - (t * delta_t / T)**2) / delta_x) - delta_x * delta_t * t / (T**2)
         end
     end
-    f_fin = Ci(1/2, n, l, x_d) * (U_actuel(1) - (t * delta_t / T)**2) / delta_x - (delta_x / T)**2 * t
+    f_fin = (Ci(1/2, x_d) * (U_actuel(1) - (t * delta_t / T)**2) / delta_x) - delta_x * delta_t * t / (T**2)
 endfunction
 
 //Question 12
@@ -179,17 +178,16 @@ function norme=J(x_d)
     num = flux(x_d) - F_cible
     norme = (num(1)**2 + num(2)**2) / (F_cible(1)**2 + F_cible(2)**2)
 endfunction
-//TODO tracer la courbe
 
 scf()
 aaa = -6
 bbb = 3
-ppp = 50
+ppp = 5
 xxx = aaa:abs(aaa-bbb)/(ppp-1):bbb
 yyy = eye(1, ppp)
 for i=1:ppp
+    disp(xxx, yyy)
     yyy(1, i) = J(xxx(1, i));
-    disp(i)
 end
 plot(xxx, yyy)
 
