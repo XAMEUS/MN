@@ -96,12 +96,12 @@ aaa = -6
 bbb = 3
 ppp = 5
 xxx = aaa:abs(aaa-bbb)/(ppp-1):bbb
-yyy = eye(1, ppp)
+yyy = zeros(1, ppp)
 for i=1:ppp
-    disp(xxx, yyy)
+    disp(i)
     yyy(1, i) = J(xxx(1, i));
 end
-//plot(xxx, yyy)
+plot(xxx, yyy)
 
 //Question 13
 function res=dichotomie(funct, epsilon, a, b) // A tester!
