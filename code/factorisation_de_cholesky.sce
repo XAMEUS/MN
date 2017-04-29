@@ -83,6 +83,16 @@ function A=gen_matrice(n, l)
     A(n, n-1) = A(n-1, n)
     A(n, n) = -A(n, n-1) + Ci(n+1/2, n, l)
 endfunction
+function [D, SD]=gen_matriceA(n, l)
+    D = zeros(n, 1)
+    SD = zeros(n-1, 1)
+    for i=1:n-1
+        SD(i) = -Ci(i+1/2, n, l)
+        D(i) = Ci(i-1/2, n, l) + Ci(i+1/2, n, l)
+    end
+endfunction
+disp(gen_matriceA(10,10))
+disp(gen_matrice(10,10))
 
 A = gen_matrice(n, l)
 B = zeros(n, 1)
