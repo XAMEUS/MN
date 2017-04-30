@@ -36,7 +36,7 @@ endfunction
 a = 0.8
 l = 10
 T = 60
-n = 2000
+n = 20
 delta_x = 2*l / (n + 1)
 n_t = 3000
 delta_t = T / n_t
@@ -60,7 +60,8 @@ function [D, SD]=gen_matriceA(x_d)
     D(n) = Ci(n-1/2, x_d) + Ci(n+1/2, x_d)
 endfunction
 
-function [f_inter, f_fin] = flux(x_d)
+function res = flux(x_d)
+    res = zeros(2)
     [A_D, A_SD] = gen_matriceA(x_d)
     M_D = ones(n, 1) + 0.5 * mu * A_D
     M_SD = 0.5 * mu * A_SD
@@ -79,22 +80,22 @@ function [f_inter, f_fin] = flux(x_d)
         Y(1) = Y(1) + mu * Ci(1/2, x_d) * (t**2 + (t+1)**2) / 2 / (n_t**2)
         U_actuel = remonte(d, m, descente(d, m, Y))
         if t == int(2 * n_t / 3) then
-            f_inter = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
+            res(1) = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
         end
     end
-    f_fin = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
+    res(2) = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
 endfunction
 
 //Question 12
 function norme=J(x_d)
-    [num_i, num_f] = flux(x_d)
-    norme = ((num_i - F_cible(1))**2 + (num_f - F_cible(2))**2) / (F_cible(1)**2 + F_cible(2)**2)
+    res = flux(x_d)
+    norme = ((res(1) - F_cible(1))**2 + (res(2) - F_cible(2))**2) / (F_cible(1)**2 + F_cible(2)**2)
 endfunction
 
 scf()
-aaa = -6
-bbb = 3
-ppp = 50
+aaa = -10//-6
+bbb = 10//3
+ppp = 10
 xxx = aaa:abs(aaa-bbb)/(ppp-1):bbb
 yyy = zeros(1, ppp)
 for i=1:ppp
@@ -104,24 +105,32 @@ end
 plot(xxx, yyy)
 
 //Question 13
-function res=dichotomie(funct, epsilon, a, b) // A tester!
-    while(b - a >= epsilon)
-        disp(a, b)
-        Ja = funct(a + (b-a) / 4)
-        Jb = funct(a + (b-a) / 2)
-        Jc = funct(a + (b-a) * 3 / 4)
+function res=dichotomie(funct, epsilon, x_min, x_max) // A tester!
+    while(x_max - x_min >= epsilon)
+        Ja = funct(x_min + (x_max-x_min) / 4)
+        Jb = funct(x_min + (x_max-x_min) / 2)
+        Jc = funct(x_min + (x_max-x_min) * 3 / 4)
         if Ja <= Jb then
-            b = a + (b-a) / 2
+            x_max = x_min + (x_max-x_min) / 2
         elseif Jb <= Jc then
-            swpa = a + (b-a) / 4
-            swpb = a + (b-a) * 3 / 4
-            a = swpa
-            b = swpb
+            swpa = x_min + (x_max-x_min) / 4
+            swpb = x_min + (x_max-x_min) * 3 / 4
+            x_min = swpa
+            x_max = swpb
         else
-            a = a + (b-a) / 2
+            x_min = x_min + (x_max-x_min) / 2
         end
     end
-    res = b - a
+    res = (x_max + x_min) / 2
 endfunction
 
 res_dich = dichotomie(J, 1e-5, -l, l)
+
+//Question 14
+function res = newton(funct, epsilon, x_init)
+    x = x_init
+    J_prime = numderivative(J, x)
+    while abs(J_prime) >= epsilon //TODO
+        delta = 
+    end
+endfunction
