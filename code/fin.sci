@@ -79,22 +79,22 @@ function [f_inter, f_fin] = flux(x_d)
         Y(1) = Y(1) + mu * Ci(1/2, x_d) * (t**2 + (t+1)**2) / 2 / (n_t**2)
         U_actuel = remonte(d, m, descente(d, m, Y))
         if t == int(2 * n_t / 3) then
-            f_inter = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - delta_x * t / T / n_t
+            f_inter = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
         end
     end
-    f_fin = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - delta_x * t / T / n_t
+    f_fin = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
 endfunction
 
 //Question 12
 function norme=J(x_d)
-    num = flux(x_d) - F_cible
-    norme = (num(1)**2 + num(2)**2) / (F_cible(1)**2 + F_cible(2)**2)
+    [num_i, num_f] = flux(x_d)
+    norme = ((num_i - F_cible(1))**2 + (num_f - F_cible(2))**2) / (F_cible(1)**2 + F_cible(2)**2)
 endfunction
 
 scf()
 aaa = -6
 bbb = 3
-ppp = 5
+ppp = 50
 xxx = aaa:abs(aaa-bbb)/(ppp-1):bbb
 yyy = zeros(1, ppp)
 for i=1:ppp
@@ -124,4 +124,4 @@ function res=dichotomie(funct, epsilon, a, b) // A tester!
     res = b - a
 endfunction
 
-//res_dich = dichotomie(J, 1e-5, -l, l)
+res_dich = dichotomie(J, 1e-5, -l, l)
