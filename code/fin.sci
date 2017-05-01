@@ -127,10 +127,14 @@ endfunction
 res_dich = dichotomie(J, 1e-5, -l, l)
 
 //Question 14
-function res = newton(funct, epsilon, x_init)
+function res = newton(epsilon, x_init)
     x = x_init
-    J_prime = numderivative(J, x)
-    while abs(J_prime) >= epsilon //TODO
-        delta = 
+    while(abs(numderivative(J, x)) >= epsilon) //TODO
+        f_xk = flux(x)
+        fd_xk = numderivative(flux, x)
+        delta = - fd_xk * (f_xk - F_cible) / (fd_xk' * fd_xk)
+        x = x + delta
     end
 endfunction
+
+res_new = newton(1e-5, 0)
