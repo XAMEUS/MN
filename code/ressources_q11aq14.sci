@@ -1,7 +1,7 @@
 a = 0.8
 l = 10
 T = 60
-n = 20
+n = 2000
 delta_x = 2*l / (n + 1)
 n_t = 3000
 delta_t = T / n_t
