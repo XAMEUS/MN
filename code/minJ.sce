@@ -105,7 +105,7 @@ end
 plot(xxx, yyy)
 
 //Question 13
-function res=dichotomie(funct, epsilon, x_min, x_max) // A tester!
+function res=dichotomie(funct, epsilon, x_min, x_max)
     while(x_max - x_min >= epsilon)
         Ja = funct(x_min + (x_max-x_min) / 4)
         Jb = funct(x_min + (x_max-x_min) / 2)
@@ -125,16 +125,23 @@ function res=dichotomie(funct, epsilon, x_min, x_max) // A tester!
 endfunction
 
 res_dich = dichotomie(J, 1e-5, -l, l)
+disp(res_dich)
 
 //Question 14
+function res = derivative(funct, x)
+    h=1e-3
+    res =(funct(x+h) - funct(x-h)) / (2 * h)
+endfunction
 function res = newton(epsilon, x_init)
-    x = x_init
-    while(abs(numderivative(J, x)) >= epsilon) //TODO
-        f_xk = flux(x)
-        fd_xk = numderivative(flux, x)
-        delta = - fd_xk * (f_xk - F_cible) / (fd_xk' * fd_xk)
-        x = x + delta
+    res = x_init
+    while(abs(derivative(J, res)) >= epsilon)
+        f_xk = flux(res)
+        fd_xk = derivative(flux, res)
+        delta = - fd_xk' * (f_xk - F_cible') / (fd_xk' * fd_xk)
+        res = res + delta
     end
+    res = res
 endfunction
 
 res_new = newton(1e-5, 0)
+disp(res_new)
