@@ -1,38 +1,3 @@
-clear
-stacksize(268435454)
-function [l, m]=factorisation_cholesky(D, SD)
-    // arg: la diagonale et la sous-diagonale d’une matrice M symétrique définie 
-    //      positive et tridiagonale.
-    // return: deux vecteurs l (diagonale) et m (sous-diagonale) issus de
-    //      la matrice résultante de la factorisation de cholesky.
-    l=zeros(1, length(D))
-    m=zeros(1, length(SD))
-    l(1) = sqrt(D(1))
-    for i = 1:length(D)-1
-        m(i) = SD(i) / l(i);
-        l(i+1) = sqrt(D(i+1) - m(i)^2);
-    end
-endfunction
-function Z=descente(l, m, Y)
-    // arg: l la sous-diagonale et m la diagonale de L, issus de la factorisation de Cholesky d'une matrice n*n. Y vecteur de taille n.
-    // return: Vecteur Z de taille n, tel que LZ=Y.
-    Z = zeros(length(Y), 1)
-	Z(1) = Y(1) / l(1)
-    for i = 2:length(Z)
-        Z(i) = (Y(i) - m(i-1) * Z(i-1)) / l(i)
-    end
-endfunction
-function X=remonte(l, m, Z)
-    // arg: l la sous-diagonale et m la diagonale de L, issus de la factorisation de Cholesky d'une matrice n*n. Z vecteur de taille n.
-    // return: Vecteur X de taille n, tel que T(L)X=Z. 
-    X = zeros(length(Z), 1)
-	X(length(X)) = Z(length(X)) / l(length(X))
-    for i = length(X)-1:-1:1
-        X(i) = (Z(i) - m(i) * X(i+1)) / l(i)
-    end
-endfunction
-
-// Question 11
 a = 0.8
 l = 10
 T = 60
@@ -44,6 +9,7 @@ t_inter = 2 * T / 3
 t_fin = T
 mu = delta_t * (n+1)**2 / (2 * l)**2
 F_cible = [-0.1, -0.18]
+
 function c=C(x, x_d)
     c = 1 - a * exp(-(x - x_d)**2 / 4)
 endfunction
@@ -60,6 +26,7 @@ function [D, SD]=gen_matriceA(x_d)
     D(n) = Ci(n-1/2, x_d) + Ci(n+1/2, x_d)
 endfunction
 
+// Question 11
 function res = flux(x_d)
     res = zeros(2)
     [A_D, A_SD] = gen_matriceA(x_d)
@@ -92,18 +59,6 @@ function norme=J(x_d)
     norme = ((res(1) - F_cible(1))**2 + (res(2) - F_cible(2))**2) / (F_cible(1)**2 + F_cible(2)**2)
 endfunction
 
-scf()
-aaa = -10//-6
-bbb = 10//3
-ppp = 10
-xxx = aaa:abs(aaa-bbb)/(ppp-1):bbb
-yyy = zeros(1, ppp)
-for i=1:ppp
-    disp(i)
-    yyy(1, i) = J(xxx(1, i));
-end
-plot(xxx, yyy)
-
 //Question 13
 function res=dichotomie(funct, epsilon, x_min, x_max)
     while(x_max - x_min >= epsilon)
@@ -124,24 +79,18 @@ function res=dichotomie(funct, epsilon, x_min, x_max)
     res = (x_max + x_min) / 2
 endfunction
 
-res_dich = dichotomie(J, 1e-5, -l, l)
-disp(res_dich)
-
 //Question 14
-function res = derivative(funct, x)
+function res = derive(funct, x)
     h=1e-3
     res =(funct(x+h) - funct(x-h)) / (2 * h)
 endfunction
 function res = newton(epsilon, x_init)
     res = x_init
-    while(abs(derivative(J, res)) >= epsilon)
+    while(abs(derive(J, res)) >= epsilon)
         f_xk = flux(res)
-        fd_xk = derivative(flux, res)
+        fd_xk = derive(flux, res)
         delta = - fd_xk' * (f_xk - F_cible') / (fd_xk' * fd_xk)
         res = res + delta
     end
     res = res
 endfunction
-
-res_new = newton(1e-5, 0)
-disp(res_new)
