@@ -62,6 +62,7 @@ endfunction
 //Question 13
 function res=dichotomie(funct, epsilon, x_min, x_max)
     while(x_max - x_min >= epsilon)
+        disp(x_min, x_max)
         Ja = funct(x_min + (x_max-x_min) / 4)
         Jb = funct(x_min + (x_max-x_min) / 2)
         Jc = funct(x_min + (x_max-x_min) * 3 / 4)
@@ -87,6 +88,7 @@ endfunction
 function res = newton(epsilon, x_init)
     res = x_init
     while(abs(derive(J, res)) >= epsilon)
+        disp(res)
         f_xk = flux(res)
         fd_xk = derive(flux, res)
         delta = - fd_xk' * (f_xk - F_cible') / (fd_xk' * fd_xk)
