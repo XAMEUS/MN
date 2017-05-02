@@ -36,7 +36,7 @@ function res = flux(x_d)
     N_SD = - 0.5 * mu * A_SD
     [d, m] = factorisation_cholesky(M_D, M_SD)
     U_actuel = zeros(n, 1)
-    for t = 0:n_t
+    for t = 1:n_t
         Y = zeros(n, 1)
         Y(1) = N_D(1) * U_actuel(1) + N_SD(1) * U_actuel(2)
         for i=2:n-1
@@ -44,7 +44,7 @@ function res = flux(x_d)
         end
         Y(n) = N_D(n) * U_actuel(n) + N_SD(n-1) * U_actuel(n-1)
         // B plus constante.
-        Y(1) = Y(1) + mu * Ci(1/2, x_d) * (t**2 + (t+1)**2) / 2 / (n_t**2)
+        Y(1) = Y(1) + mu * Ci(1/2, x_d) * (t**2 + (t-1)**2) / 2 / (n_t**2)
         U_actuel = remonte(d, m, descente(d, m, Y))
         if t == int(2 * n_t / 3) then
             res(1) = (Ci(1/2, x_d) * (U_actuel(1) - (t / n_t)**2) / delta_x) - (delta_x * t) / (T * n_t)
